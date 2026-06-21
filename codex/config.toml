@@ -1,0 +1,8 @@
+# Codex 项目级配置
+# 让 Codex 在找不到 AGENTS.md 时，回退读取 CLAUDE.md
+# 这样 Claude Code 和 Codex 可以共用同一份项目说明文件，不需要维护两份重复内容。
+#
+# 查找顺序：AGENTS.override.md → AGENTS.md → CLAUDE.md（取第一个存在的文件）
+# 本项目不建 AGENTS.md，因此 Codex 会读取 CLAUDE.md。
+
+project_doc_fallback_filenames = ["CLAUDE.md"]
