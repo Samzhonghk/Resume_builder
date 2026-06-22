@@ -42,6 +42,16 @@
 - PDF 导出：react-pdf
 - 数据存储（MVP阶段）：localStorage
 
+## 踩坑配置记录
+
+| 问题 | 现象 | 规避方式（已采用） |
+|---|---|---|
+| `@react-pdf/renderer` 不能静态 import 到主 bundle | Vite 预构建报错或 HMR 崩溃 | `handleExportPDF` 内用 `await import(...)` 动态加载，永不静态引入 |
+| `@anthropic-ai/sdk` 在浏览器端直接调用 | 默认 SDK 拒绝浏览器环境 | `new Anthropic({ dangerouslyAllowBrowser: true })`（见 `src/services/aiGenerate.js`）|
+| API Key 暴露在前端 | 明文可见于浏览器 DevTools | MVP 阶段接受，生产对外开放前须迁移到 BFF（见 PRD.md §8）|
+| `workExperience._id` 不能发给 AI | AI 原样返回或格式混乱 | 发送前 strip `_id`，返回后按 index 对位合并（见 `aiGenerate.js`）|
+| `optimizeDeps.exclude: ['@react-pdf/renderer']` | 若改为静态引入 react-pdf 则 Vite 预构建出错 | 保持动态 import 则无需此配置；若改静态引入再加 |
+
 ## 协作说明
 
 本项目可能由 Claude Code 和 Codex 协同开发。两者共用本文件作为项目上下文
