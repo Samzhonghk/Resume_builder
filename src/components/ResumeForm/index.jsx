@@ -79,9 +79,13 @@ export default function ResumeForm({ resumeData, onChange }) {
       </Section>
 
       <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-6">
-        <h2 className="text-lg font-semibold text-gray-800 mb-1">Generate with AI</h2>
+        <h2 className="text-lg font-semibold text-gray-800 mb-1">
+          {resumeData.source === 'uploaded' ? 'Optimise with AI' : 'Generate with AI'}
+        </h2>
         <p className="text-sm text-gray-600 mb-4">
-          AI rewrites your work experience bullet points using professional language and the STAR method. Your original content is preserved — only the wording improves. No facts will be invented.
+          {resumeData.source === 'uploaded'
+            ? 'AI refines your existing bullet points — improving language, applying the STAR method, and aligning with your target industry. No facts will be invented.'
+            : 'AI rewrites your work experience bullet points using professional language and the STAR method. Your original content is preserved — only the wording improves. No facts will be invented.'}
         </p>
 
         {error && (
@@ -125,6 +129,8 @@ export default function ResumeForm({ resumeData, onChange }) {
               </svg>
               Generating with AI...
             </>
+          ) : resumeData.source === 'uploaded' ? (
+            'Optimise with AI'
           ) : (
             'Generate with AI'
           )}

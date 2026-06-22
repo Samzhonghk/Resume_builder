@@ -5,8 +5,9 @@
 
 ## 当前开发阶段
 
-阶段一（MVP核心链路）：表单 → AI生成 → 单一模板 → 导出
-对应 docs/PRD.md 第5、7节。
+阶段四（完善）：版本管理 / 数据隐私合规（视产品是否对外开放而定）
+前三阶段已全部完成：落地页 → 表单/上传两条路径 → AI生成/优化 → 5套模板 → Cover Letter + 关键词检查 → PDF导出
+对应 docs/PRD.md 第5节（阶段一～三全部 ✅）。
 
 > 修改本节：每次进入新阶段时，更新这里的"当前阶段"，确保每次启动时读到的是最新进度。
 
@@ -51,6 +52,8 @@
 | API Key 暴露在前端 | 明文可见于浏览器 DevTools | MVP 阶段接受，生产对外开放前须迁移到 BFF（见 PRD.md §8）|
 | `workExperience._id` 不能发给 AI | AI 原样返回或格式混乱 | 发送前 strip `_id`，返回后按 index 对位合并（见 `aiGenerate.js`）|
 | `optimizeDeps.exclude: ['@react-pdf/renderer']` | 若改为静态引入 react-pdf 则 Vite 预构建出错 | 保持动态 import 则无需此配置；若改静态引入再加 |
+| mammoth 在 Vite dev 动态 import 时报 "Can't find end of central directory" | mammoth 的 `browser` 字段替换在 Vite 动态 import 中不生效，加载了 Node 版本 | `vite.config.js` 加 `optimizeDeps: { include: ['mammoth'] }` 强制预构建走 browser field |
+| `docx` 包与 react-pdf / pdfjs-dist 同时存在时 `npm run build` 崩溃 | Vite 8（rolldown/Rust）构建时 Rust 线程池初始化失败，OS 报页面文件耗尽（exit code 9） | 用纯文本 RTF 格式替代 .docx（Word/LibreOffice/Google Docs 均支持），彻底移除 `docx` 依赖 |
 
 ## 协作说明
 

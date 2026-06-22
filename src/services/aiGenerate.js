@@ -15,16 +15,21 @@ const INDUSTRY_GUIDELINES = {
     'Emphasise: financial results (revenue growth, cost savings, P&L), stakeholder and client management, process improvements, strategic initiatives, and risk management. Action verbs: Led, Managed, Delivered, Reduced, Improved.',
 }
 
-function buildSystemPrompt(targetIndustry) {
+function buildSystemPrompt(targetIndustry, source = 'blank') {
   const guideline = INDUSTRY_GUIDELINES[targetIndustry] ?? null
   const industrySection =
     targetIndustry && targetIndustry !== 'Other'
       ? `\nTarget industry: ${targetIndustry}${guideline ? `\nIndustry focus — ${guideline}` : ''}`
       : ''
 
+  const taskDescription =
+    source === 'uploaded'
+      ? 'Your task: refine and optimise the bullet points from an existing uploaded resume, making them more impactful and ATS-friendly for the New Zealand job market.'
+      : "Your task: transform a candidate's raw work experience notes into polished, ATS-friendly achievement statements."
+
   return `You are an expert resume writer specialising in the New Zealand job market.
 
-Your task: transform a candidate's raw work experience notes into polished, ATS-friendly achievement statements.${industrySection}
+${taskDescription}${industrySection}
 
 Rules you MUST follow:
 1. Use strong past-tense action verbs (Led, Developed, Implemented, Delivered, Managed, etc.)
@@ -83,7 +88,7 @@ export async function generateResumeContent(resumeData) {
   const stream = client.messages.stream({
     model: 'claude-opus-4-8',
     max_tokens: 4096,
-    system: buildSystemPrompt(resumeData.targetIndustry),
+    system: buildSystemPrompt(resumeData.targetIndustry, resumeData.source),
     messages: [{ role: 'user', content: buildUserMessage(resumeData.data) }],
   })
 

@@ -118,10 +118,10 @@
 | 模板名 | 状态 | 文件名 |
 |---|---|---|
 | ClassicTemplate（经典单栏） | ✅ 已完成 | ClassicTemplatePDF.jsx |
-| ModernTemplate | 待开发 | ModernTemplatePDF.jsx |
-| MinimalTemplate | 待开发 | MinimalTemplatePDF.jsx |
-| ProfessionalTemplate | 待开发 | ProfessionalTemplatePDF.jsx |
-| CreativeTemplate | 待开发 | CreativeTemplatePDF.jsx |
+| ModernTemplate（蓝色强调） | ✅ 已完成 | ModernTemplatePDF.jsx |
+| MinimalTemplate（极简无分隔） | ✅ 已完成 | MinimalTemplatePDF.jsx |
+| ProfessionalTemplate（居中页眉） | ✅ 已完成 | ProfessionalTemplatePDF.jsx |
+| CreativeTemplate（深色页眉块） | ✅ 已完成 | CreativeTemplatePDF.jsx |
 
 > **变更说明**：原计划中的"双栏简洁"模板暂缓。本轮新增的 4 个模板均**完全照搬 ClassicTemplate 的代码模式**（纯 react-pdf 原语手刻，单栏布局），不引入双栏或新的渲染方案。若后续仍需要双栏布局模板，需作为独立技术任务评估（react-pdf 手刻双栏的实现复杂度明显更高）。
 
@@ -150,7 +150,7 @@
 
 > 新增模板（3.6）需复用同一套导出逻辑（`ExportButton` / `handleExportPDF` 的 `full` prop 模式），不另起新的导出流程。
 
-### 3.8 Cover Letter 生成模块
+### 3.8 Cover Letter 生成模块 ✅ 已完成（阶段三）
 
 **位置**：简历导出完成后的附加步骤，入口如「为这份简历生成求职信」
 
@@ -166,6 +166,18 @@
 
 **Prompt 要点**：
 > 突出简历中与该岗位最相关的经历，语气专业不生硬，符合新西兰求职信常见格式（开头说明申请意向，中间1-2段呼应岗位要求与自身经历匹配点，结尾表达沟通意愿）
+
+**署名**：求职信末尾署名默认取简历中的 `name` 字段；若 `name` 为空，默认回退到 `Sam Zhong`。
+
+**下载格式**：生成后支持 3 种格式下载（下拉菜单选择）：
+
+| 格式 | 扩展名 | 实现方式 |
+|---|---|---|
+| PDF | `.pdf` | `@react-pdf/renderer` 动态 import，`CoverLetterPDF` 组件渲染 |
+| Word / RTF | `.rtf` | 纯客户端生成 RTF 文本（无额外依赖），Word / LibreOffice / Google Docs 均可打开 |
+| 纯文本 | `.txt` | Blob + `text/plain` |
+
+> **技术选型说明**：Word 格式采用 RTF 而非 .docx，原因是 `docx` npm 包（4 MB）与 react-pdf / pdfjs-dist 叠加后在 Vite 8（rolldown/Rust）构建时导致 OS 级页面文件耗尽（exit code 9），而 RTF 为纯文本格式，无需额外依赖，已验证 Word、LibreOffice、Google Docs 均可正常打开编辑。
 
 ### 3.9 关键词匹配度检查（与 Cover Letter 模块同步）
 
@@ -196,19 +208,17 @@
 4. ✅ ClassicTemplate 模板 + PDF 导出（react-pdf）
 > 已验证：表单 → AI 生成 → 实时预览（经典单栏模板）→ PDF 导出，链路完整。
 
-### 阶段二：上传优化路径（进行中）
-5. 上传模块（PDF/Word 解析）
-6. AI 结构化提取 → 回填表单
-7. **确认/编辑中间页面**（提取结果需人工校验后才进入主流程）
-8. AI 优化润色逻辑（uploaded 模式）
-9. 行业适配 prompt 机制（3.5）
+### 阶段二：上传优化路径 ✅ 已完成
+5. ✅ 上传模块（PDF/Word 解析）— pdfjs-dist + mammoth，浏览器端动态 import
+6. ✅ AI 结构化提取 → 回填表单 — Claude API 提取结构化 JSON
+7. ✅ **确认/编辑中间页面**（提取结果需人工校验后才进入主流程）
+8. ✅ AI 优化润色逻辑（uploaded 模式）— buildSystemPrompt 按 source 分支
+9. ✅ 行业适配 prompt 机制（3.5）— INDUSTRY_GUIDELINES 已在阶段一实现，两种模式共用
 
-> 关键约束：解析后的数据结构需严格对齐 3.2 中已确认的统一数据结构，确保与表单路径共用模板/导出组件。
-
-### 阶段三：模板扩展与求职信（进行中）
-10. 新增 4 套模板：ModernTemplate、MinimalTemplate、ProfessionalTemplate、CreativeTemplate（完全照搬 ClassicTemplate 代码模式）
-11. Cover Letter 生成模块
-12. 关键词匹配度检查（高亮缺失关键词列表形式）
+### 阶段三：模板扩展与求职信 ✅ 已完成
+10. ✅ 新增 4 套模板：ModernTemplate、MinimalTemplate、ProfessionalTemplate、CreativeTemplate（完全照搬 ClassicTemplate 代码模式）；模板选择器已集成至预览面板
+11. ✅ Cover Letter 生成模块 — JD 粘贴 + 目标岗位/公司（可选）→ Claude 生成，可编辑后复制
+12. ✅ 关键词匹配度检查（高亮缺失关键词列表形式）— 与 Cover Letter 同步触发，amber chip 展示
 
 ### 阶段四：完善（视产品是否扩展给他人使用而定）
 13. 简历版本管理（同一份经历针对不同岗位保存多个版本）
