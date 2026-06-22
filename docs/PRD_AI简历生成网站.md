@@ -258,15 +258,28 @@
 
 ---
 
-## 8. 已知技术债
+## 8. 技术债与部署
 
-### API Key 暴露问题
+### API Key 安全（BFF 迁移）✅ 已完成
 
-**现状**：MVP 阶段 `VITE_ANTHROPIC_API_KEY` 写入前端环境变量，构建产物中 API Key 明文暴露于浏览器（SDK 以 `dangerouslyAllowBrowser: true` 调用）。
+**原问题**：MVP 阶段 `VITE_ANTHROPIC_API_KEY` 写入前端环境变量，构建产物中 API Key 明文暴露于浏览器。
 
-**风险**：若产品对外部用户开放，任何人均可从 DevTools 提取 Key 滥用，导致 API 费用失控。
+**已解决**：Claude API 调用已迁移至 Vercel Serverless Functions（`api/` 目录），前端通过 `fetch('/api/...')` 调用，Anthropic Key 只存在于服务端环境变量，浏览器无法获取。
 
-**迁移计划**：在阶段四（产品对外开放前）引入轻量 BFF（Backend For Frontend），将 Claude API 调用迁移至服务端，前端只与自有 API 交互，不再直接持有 Anthropic Key。
+**架构变化**：
 
-> 阶段一～三（个人/内部使用）：接受此风险，不做额外处理。  
-> 阶段四（对外开放）：BFF 迁移作为正式上线的前置条件。
+| 文件 | 变化 |
+|---|---|
+| `api/generate.js` | 服务端处理简历 AI 优化，调用 Claude API |
+| `api/extract.js` | 服务端处理上传简历的结构化提取 |
+| `api/cover-letter.js` | 服务端处理求职信生成 |
+| `api/keywords.js` | 服务端处理关键词缺口检查 |
+| `src/services/*.js` | 改为调用 `/api/*` 接口，不再直接调用 Anthropic SDK |
+
+**部署平台**：Vercel（免费 Hobby 计划）
+
+**本地开发**：`npm run dev`（即 `vercel dev`）同时启动 Vite 开发服务器和 serverless functions
+
+**环境变量**：
+- 本地：`.env` 中设置 `ANTHROPIC_API_KEY=sk-...`
+- Vercel 生产：在 Dashboard → Settings → Environment Variables 中设置

@@ -38,10 +38,12 @@
 ## 技术栈
 
 - 前端：React + Tailwind
-- 简历内容生成/优化：Claude API（或同类 LLM API）
-- PDF 解析：pdf-parse；Word 解析：mammoth
-- PDF 导出：react-pdf
+- API 层：Vercel Serverless Functions（`api/` 目录），前端通过 `fetch('/api/...')` 调用
+- 简历内容生成/优化：Claude API（claude-opus-4-8），调用在服务端，Key 不暴露到浏览器
+- PDF 解析：pdfjs-dist；Word 解析：mammoth（均在浏览器端动态 import）
+- PDF 导出：react-pdf（动态 import）
 - 数据存储（MVP阶段）：localStorage
+- 本地开发：`npm run dev`（vercel dev，同时启动 Vite + serverless functions）
 
 ## 踩坑配置记录
 
