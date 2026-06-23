@@ -40,18 +40,43 @@ export default function WorkExperience({ entries, onChange }) {
     )
   }
 
+  function move(index, direction) {
+    const next = [...entries]
+    const target = index + direction
+    ;[next[index], next[target]] = [next[target], next[index]]
+    onChange(next)
+  }
+
   return (
     <div className="space-y-4">
       {entries.map((entry, index) => (
         <div key={entry._id} className="bg-gray-50 border border-gray-200 rounded-lg p-4 space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-gray-500">Position {index + 1}</span>
-            <button
-              onClick={() => remove(entry._id)}
-              className="text-sm text-red-400 hover:text-red-600"
-            >
-              Remove
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => move(index, -1)}
+                disabled={index === 0}
+                className="text-gray-400 hover:text-gray-600 disabled:opacity-25 disabled:cursor-not-allowed text-base leading-none px-1"
+                title="Move up"
+              >
+                ↑
+              </button>
+              <button
+                onClick={() => move(index, 1)}
+                disabled={index === entries.length - 1}
+                className="text-gray-400 hover:text-gray-600 disabled:opacity-25 disabled:cursor-not-allowed text-base leading-none px-1"
+                title="Move down"
+              >
+                ↓
+              </button>
+              <button
+                onClick={() => remove(entry._id)}
+                className="text-sm text-red-400 hover:text-red-600"
+              >
+                Remove
+              </button>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

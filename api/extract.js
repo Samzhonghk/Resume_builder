@@ -6,12 +6,13 @@ Extract structured information from resume text and return ONLY valid JSON with 
 
 Rules:
 1. Extract ALL work experience entries found in the text
-2. Split responsibilities and achievements into individual bullet strings
-3. Preserve original date formats (e.g. "Jan 2022 – Present", "2019–2021")
-4. For contact: extract email, NZ phone (+64...), city/region, LinkedIn URL — empty string if not found
-5. Skills: flat array of individual skill strings (not categories)
-6. Return empty arrays [] for sections not present in the resume
-7. Return ONLY the JSON object — no explanation, no code fences
+2. Also extract entries from any "Projects", "Personal Projects", "Key Projects", or similar sections — map each project into workExperience using the project name as "company" and "Project" as "title"
+3. Split responsibilities and achievements into individual bullet strings
+4. Preserve original date formats (e.g. "Jan 2022 – Present", "2019–2021")
+5. For contact: extract email, NZ phone (+64...), city/region, LinkedIn URL — empty string if not found
+6. Skills: flat array of individual skill strings (not categories)
+7. Return empty arrays [] for sections not present in the resume
+8. Return ONLY the JSON object — no explanation, no code fences
 
 JSON structure to return:
 {
