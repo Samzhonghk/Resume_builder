@@ -20,6 +20,7 @@ export default function ClassicTemplate({ data }) {
     contact.phone,
     contact.location,
     contact.linkedin,
+    contact.website,
   ].filter(Boolean)
 
   const hasWorkExp = workExperience.length > 0

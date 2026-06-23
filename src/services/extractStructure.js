@@ -19,6 +19,7 @@ export async function extractStructure(rawText) {
       phone: parsed.contact?.phone || '',
       location: parsed.contact?.location || '',
       linkedin: parsed.contact?.linkedin || '',
+      website: parsed.contact?.website || '',
     },
     workExperience: (parsed.workExperience || []).map(e => ({
       _id: crypto.randomUUID(),

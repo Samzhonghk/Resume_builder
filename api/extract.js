@@ -9,7 +9,7 @@ Rules:
 2. Also extract entries from any "Projects", "Personal Projects", "Key Projects", or similar sections — map each project into workExperience using the project name as "company" and "Project" as "title"
 3. Split responsibilities and achievements into individual bullet strings
 4. Preserve original date formats (e.g. "Jan 2022 – Present", "2019–2021")
-5. For contact: extract email, NZ phone (+64...), city/region, LinkedIn URL — empty string if not found
+5. For contact: extract email, NZ phone (+64...), city/region, LinkedIn URL, personal website/GitHub URL — empty string if not found
 6. Skills: flat array of individual skill strings (not categories)
 7. Return empty arrays [] for sections not present in the resume
 8. Return ONLY the JSON object — no explanation, no code fences
@@ -17,7 +17,7 @@ Rules:
 JSON structure to return:
 {
   "name": "",
-  "contact": { "email": "", "phone": "", "location": "", "linkedin": "" },
+  "contact": { "email": "", "phone": "", "location": "", "linkedin": "", "website": "" },
   "workExperience": [
     { "company": "", "title": "", "period": "", "bullets": [""] }
   ],
@@ -58,6 +58,7 @@ export default async function handler(req, res) {
         phone: parsed.contact?.phone || '',
         location: parsed.contact?.location || '',
         linkedin: parsed.contact?.linkedin || '',
+        website: parsed.contact?.website || '',
       },
       workExperience: (parsed.workExperience || []).map(e => ({
         company: e.company || '',

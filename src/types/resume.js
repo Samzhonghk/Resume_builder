@@ -14,7 +14,7 @@ export function createEmptyResume() {
     targetIndustry: '',
     data: {
       name: '',
-      contact: { email: '', phone: '', location: '', linkedin: '' },
+      contact: { email: '', phone: '', location: '', linkedin: '', website: '' },
       workExperience: [],
       education: [],
       skills: [],

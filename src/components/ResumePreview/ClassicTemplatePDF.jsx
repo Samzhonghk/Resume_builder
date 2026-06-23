@@ -65,6 +65,7 @@ export default function ClassicTemplatePDF({ data }) {
     contact.phone,
     contact.location,
     contact.linkedin,
+    contact.website,
   ].filter(Boolean)
 
   return (

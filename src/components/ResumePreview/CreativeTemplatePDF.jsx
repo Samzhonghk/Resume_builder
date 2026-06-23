@@ -69,7 +69,7 @@ const s = StyleSheet.create({
 
 export default function CreativeTemplatePDF({ data }) {
   const { name, contact, workExperience, education, skills } = data.data
-  const contactParts = [contact.email, contact.phone, contact.location, contact.linkedin].filter(Boolean)
+  const contactParts = [contact.email, contact.phone, contact.location, contact.linkedin, contact.website].filter(Boolean)
 
   return (
     <Document>

@@ -64,6 +64,15 @@ export default function BasicInfo({ name, contact, onChange }) {
             placeholder="linkedin.com/in/janesmith"
           />
         </Field>
+        <Field label="Website (optional)">
+          <input
+            className={inp}
+            type="url"
+            value={contact.website}
+            onChange={e => update('website', e.target.value)}
+            placeholder="github.com/janesmith"
+          />
+        </Field>
       </div>
     </div>
   )

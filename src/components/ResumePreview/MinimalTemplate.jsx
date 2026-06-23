@@ -9,7 +9,7 @@ const EMPTY_MSG = (
 
 export default function MinimalTemplate({ data }) {
   const { name, contact, workExperience, education, skills } = data.data
-  const contactParts = [contact.email, contact.phone, contact.location, contact.linkedin].filter(Boolean)
+  const contactParts = [contact.email, contact.phone, contact.location, contact.linkedin, contact.website].filter(Boolean)
   const hasContent = name || contactParts.length || workExperience.length || education.length || skills.length
   if (!hasContent) return EMPTY_MSG
 
