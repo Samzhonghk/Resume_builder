@@ -18,16 +18,10 @@ export default function CoverLetterPage({ resumeData, onBack }) {
   const canAnalyse = jd.trim().length > 50
 
   function buildFilename() {
-    return (
-      [
-        resumeData.data.name || 'cover-letter',
-        company ? `-${company}` : '',
-        jobTitle ? `-${jobTitle}` : '',
-      ]
-        .join('')
-        .replace(/[^\w\s-]/g, '')
-        .trim() || 'cover-letter'
-    )
+    const namePart = resumeData.data.name?.trim()
+      ? resumeData.data.name.trim().replace(/\s+/g, '_')
+      : 'Cover_Letter'
+    return `${namePart}_CoverLetter`
   }
 
   async function handleDownload(format) {
