@@ -36,14 +36,15 @@ export default function MinimalTemplate({ data }) {
               const filledBullets = entry.bullets.filter(b => b.trim())
               return (
                 <div key={entry._id}>
-                  <div className="flex items-baseline justify-between gap-3">
+                  <div className="flex items-start justify-between gap-3">
                     <span className="font-semibold text-gray-900 leading-snug" style={{ fontSize: '12px' }}>
                       {entry.company || <span className="text-gray-300">Company</span>}
                     </span>
-                    {entry.period && (
-                      <span className="text-gray-400 whitespace-nowrap flex-shrink-0" style={{ fontSize: '10px' }}>
-                        {entry.period}
-                      </span>
+                    {(entry.period || entry.location) && (
+                      <div className="text-right flex-shrink-0">
+                        {entry.period && <div className="text-gray-400 whitespace-nowrap" style={{ fontSize: '10px' }}>{entry.period}</div>}
+                        {entry.location && <div className="text-gray-400 whitespace-nowrap" style={{ fontSize: '10px' }}>{entry.location}</div>}
+                      </div>
                     )}
                   </div>
                   {entry.title && (

@@ -98,14 +98,24 @@ export default function WorkExperience({ entries, onChange }) {
             </Field>
           </div>
 
-          <Field label="Period">
-            <input
-              className={inp}
-              value={entry.period}
-              onChange={e => update(entry._id, 'period', e.target.value)}
-              placeholder="e.g. Jan 2022 – Present"
-            />
-          </Field>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <Field label="Period">
+              <input
+                className={inp}
+                value={entry.period}
+                onChange={e => update(entry._id, 'period', e.target.value)}
+                placeholder="e.g. Jan 2022 – Present"
+              />
+            </Field>
+            <Field label="Location">
+              <input
+                className={inp}
+                value={entry.location}
+                onChange={e => update(entry._id, 'location', e.target.value)}
+                placeholder="e.g. Auckland, NZ"
+              />
+            </Field>
+          </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-600 mb-2">

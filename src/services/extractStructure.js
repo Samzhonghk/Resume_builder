@@ -26,6 +26,7 @@ export async function extractStructure(rawText) {
       company: e.company || '',
       title: e.title || '',
       period: e.period || '',
+      location: e.location || '',
       bullets: Array.isArray(e.bullets) && e.bullets.length > 0 ? e.bullets : [''],
     })),
     education: (parsed.education || []).map(e => ({

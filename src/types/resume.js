@@ -24,7 +24,7 @@ export function createEmptyResume() {
 
 // _id is a client-only stable key for React list rendering; strip before sending to AI
 export function createWorkEntry() {
-  return { _id: crypto.randomUUID(), company: '', title: '', period: '', bullets: [''] }
+  return { _id: crypto.randomUUID(), company: '', title: '', period: '', location: '', bullets: [''] }
 }
 
 export function createEducationEntry() {

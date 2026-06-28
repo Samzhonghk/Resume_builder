@@ -92,7 +92,10 @@ export default function CreativeTemplatePDF({ data }) {
                   <View key={entry._id ?? i} style={i > 0 ? s.entryGap : null}>
                     <View style={s.row}>
                       <Text style={s.company}>{entry.company}</Text>
-                      {entry.period ? <Text style={s.period}>{entry.period}</Text> : null}
+                      <View style={{ alignItems: 'flex-end' }}>
+                        {entry.period ? <Text style={s.period}>{entry.period}</Text> : null}
+                        {entry.location ? <Text style={s.period}>{entry.location}</Text> : null}
+                      </View>
                     </View>
                     {entry.title ? <Text style={s.jobTitle}>{entry.title}</Text> : null}
                     {filledBullets.map((bullet, j) => (

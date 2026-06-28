@@ -19,7 +19,7 @@ JSON structure to return:
   "name": "",
   "contact": { "email": "", "phone": "", "location": "", "linkedin": "", "website": "" },
   "workExperience": [
-    { "company": "", "title": "", "period": "", "bullets": [""] }
+    { "company": "", "title": "", "period": "", "location": "", "bullets": [""] }
   ],
   "education": [{ "institution": "", "degree": "", "period": "" }],
   "skills": []
@@ -64,6 +64,7 @@ export default async function handler(req, res) {
         company: e.company || '',
         title: e.title || '',
         period: e.period || '',
+        location: e.location || '',
         bullets: Array.isArray(e.bullets) && e.bullets.length > 0 ? e.bullets : [''],
       })),
       education: (parsed.education || []).map(e => ({
